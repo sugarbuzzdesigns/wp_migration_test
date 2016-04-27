@@ -32,6 +32,8 @@ if ( version_compare( $GLOBALS['wp_version'], '4.4-alpha', '<' ) ) {
 	require get_template_directory() . '/inc/back-compat.php';
 }
 
+$js_suffix;
+
 if ( ! function_exists( 'twentysixteen_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -45,6 +47,9 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
  * @since Twenty Sixteen 1.0
  */
 function twentysixteen_setup() {
+	global $js_suffix;
+
+	$js_suffix = ( defined( 'SCRIPT_DEBUG' ) ) ? '.min.js' : '.js';
 	/*
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory.

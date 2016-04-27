@@ -13,8 +13,9 @@
  * @subpackage Twenty_Sixteen
  * @since Twenty Sixteen 1.0
  */
-
 get_header(); ?>
+
+<?php echo '<p class="js_suffix">' . $js_suffix . '</p>'; ?>
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
