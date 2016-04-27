@@ -144,11 +144,11 @@ function bones_scripts_and_styles() {
 	        break;
 	    case 'staging':
 	    	$dir = 'dist';
-	    	$ext = 'min.';
+	    	$ext = '.min';
 	        break;
 	    case 'production':
 	    	$dir = 'dist';
-	    	$ext = 'min.';
+	    	$ext = '.min';
 	        break;
 	}
 
