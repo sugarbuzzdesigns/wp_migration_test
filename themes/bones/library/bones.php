@@ -52,7 +52,20 @@ function bones_head_cleanup() {
 } /* end bones head cleanup */
 
 // Set build and dist directories for dev and prod servers
-$js_suffix = ( defined( 'SCRIPT_DEBUG' ) ) ? '.min.js' : '.js';
+$currenthost = $_SERVER['HTTP_HOST'];
+$env = 'dev';
+
+switch ($currenthost) {
+    case 'localhost':
+		$env = 'dev';
+        break;
+    case 'sugarbuzzdesigns.com':
+		$env = 'staging';
+        break;
+    case 'publicschool.com':
+		$env = 'production';
+        break;
+}
 
 // A better title
 // http://www.deluxeblogtips.com/2012/03/better-title-meta-tag.html
@@ -123,26 +136,40 @@ SCRIPTS & ENQUEUEING
 // loading modernizr and jquery, and reply script
 function bones_scripts_and_styles() {
 
-  global $wp_styles; // call global $wp_styles variable to add conditional wrapper around ie stylesheet the WordPress way
+  global $wp_styles, $env; // call global $wp_styles variable to add conditional wrapper around ie stylesheet the WordPress way
+	switch ($env) {
+	    case 'dev':
+	    	$dir = 'src';
+	    	$ext = '';
+	        break;
+	    case 'staging':
+	    	$dir = 'dist';
+	    	$ext = 'min.';
+	        break;
+	    case 'production':
+	    	$dir = 'dist';
+	    	$ext = 'min.';
+	        break;
+	}
 
-  if (!is_admin()) {
+  	if (!is_admin()) {
 
 		// modernizr (without media query polyfill)
 		wp_register_script( 'bones-modernizr', get_stylesheet_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
 
 		// register main stylesheet
-		wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/style.css', array(), '', 'all' );
+		wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/'. $dir .'/style'. $ext .'.css', array(), '', 'all' );
 
 		// ie-only style sheet
-		wp_register_style( 'bones-ie-only', get_stylesheet_directory_uri() . '/library/css/ie.css', array(), '' );
+		wp_register_style( 'bones-ie-only', get_stylesheet_directory_uri() . '/library/css/'. $dir .'/ie'. $ext .'.css', array(), '' );
 
     // comment reply script for threaded comments
     if ( is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
-		  wp_enqueue_script( 'comment-reply' );
+		wp_enqueue_script( 'comment-reply' );
     }
 
 		//adding scripts file in the footer
-		wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
+		wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/'. $dir .'/scripts'. $ext .'.js', array( 'jquery' ), '', true );
 
 		// enqueue styles and scripts
 		wp_enqueue_script( 'bones-modernizr' );

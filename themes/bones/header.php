@@ -43,10 +43,7 @@
 	<body <?php body_class(); ?> itemscope itemtype="http://schema.org/WebPage">
 
 		<div id="container">
-		<?php $currenthost = $_SERVER['HTTP_HOST'];
-
-		echo $currenthost; ?>
-
+		
 			<header class="header" role="banner" itemscope itemtype="http://schema.org/WPHeader">
 
 				<div id="inner-header" class="wrap cf">
